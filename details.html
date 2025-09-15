@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Details by Batch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Header -->
+    <div class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold text-gray-800 text-center mb-4">Alumni Directory</h1>
+            <p class="text-gray-600 text-center mb-6">Browse alumni organized by graduation batch</p>
+            
+            <!-- Search and Filter Controls -->
+            <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+                <div class="relative">
+                    <input type="text" id="searchInput" placeholder="Search by name, department..." 
+                           class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+                
+                <select id="batchFilter" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    <option value="">All Batches</option>
+                    <option value="2024">Batch 2024</option>
+                    <option value="2023">Batch 2023</option>
+                    <option value="2022">Batch 2022</option>
+                    <option value="2021">Batch 2021</option>
+                </select>
+                
+                <button onclick="addNewAlumni()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-plus mr-2"></i>Add Alumni
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                <i class="fas fa-users text-3xl text-blue-600 mb-2"></i>
+                <h3 class="text-2xl font-bold text-gray-800" id="totalAlumni">12</h3>
+                <p class="text-gray-600">Total Alumni</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                <i class="fas fa-graduation-cap text-3xl text-green-600 mb-2"></i>
+                <h3 class="text-2xl font-bold text-gray-800" id="totalBatches">4</h3>
+                <p class="text-gray-600">Batches</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                <i class="fas fa-building text-3xl text-purple-600 mb-2"></i>
+                <h3 class="text-2xl font-bold text-gray-800" id="totalDepartments">5</h3>
+                <p class="text-gray-600">Departments</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                <i class="fas fa-calendar text-3xl text-orange-600 mb-2"></i>
+                <h3 class="text-2xl font-bold text-gray-800" id="latestBatch">2024</h3>
+                <p class="text-gray-600">Latest Batch</p>
+            </div>
+        </div>
+
+        <!-- Alumni by Batch -->
+        <div id="alumniContainer">
+            <!-- Batch sections will be dynamically generated here -->
+        </div>
+    </div>
+
+    <!-- Alumni Detail Modal -->
+    <div id="alumniModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold text-gray-800">Alumni Details</h2>
+                        <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    
+                    <div id="modalContent">
+                        <!-- Modal content will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to load alumni data from localStorage
+        function loadAlumniData() {
+            const stored = localStorage.getItem('alumniDatabase');
+            if (stored) {
+                return JSON.parse(stored);
+            } else {
+                // Sample data for demonstration - remove this in production
+                return [
+                    {
+                        id: 1,
+                        fullName: "John Doe",
+                        batch: "2024",
+                        department: "Computer Science",
+                        phone: "+1 234 567 8900",
+                        email: "john.doe@email.com",
+                        address: "123 Main Street, New York, NY 10001",
+                        facebook: "facebook.com/johndoe",
+                        instagram: "@johndoe",
+                        linkedin: "linkedin.com/in/johndoe",
+                        twitter: "@johndoe"
+                    },
+                    {
+                        id: 2,
+                        fullName: "Jane Smith",
+                        batch: "2024",
+                        department: "Electrical Engineering",
+                        phone: "+1 234 567 8901",
+                        email: "jane.smith@email.com",
+                        address: "456 Oak Avenue, Los Angeles, CA 90210",
+                        facebook: "facebook.com/janesmith",
+                        instagram: "@janesmith",
+                        linkedin: "linkedin.com/in/janesmith",
+                        twitter: "@janesmith"
+                    }
+                ];
+            }
+        }
+
+        // Function to save alumni data to localStorage
+        function saveAlumniData(data) {
+            localStorage.setItem('alumniDatabase', JSON.stringify(data));
+        }
+
+        // Function to add new alumni from registration
+        function addAlumniFromRegistration(alumniInfo) {
+            const currentData = loadAlumniData();
+            const newId = currentData.length > 0 ? Math.max(...currentData.map(a => a.id)) + 1 : 1;
+            
+            const newAlumni = {
+                id: newId,
+                fullName: alumniInfo.fullName,
+                batch: alumniInfo.batch,
+                department: alumniInfo.department,
+                phone: alumniInfo.phone,
+                email: alumniInfo.email,
+                address: alumniInfo.address,
+                facebook: alumniInfo.facebook,
+                instagram: alumniInfo.instagram,
+                linkedin: alumniInfo.linkedin,
+                twitter: alumniInfo.twitter,
+                registrationDate: new Date().toISOString()
+            };
+            
+            currentData.push(newAlumni);
+            saveAlumniData(currentData);
+            
+            // Refresh the display
+            alumniData = loadAlumniData();
+            filteredData = [...alumniData];
+            renderAlumni();
+            updateStatistics();
+            
+            return newAlumni;
+        }
+
+        // Function to check for new registration data from URL parameters
+        function checkForNewRegistration() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            if (urlParams.has('newRegistration')) {
+                const newAlumni = {
+                    fullName: urlParams.get('fullName') || '',
+                    batch: urlParams.get('batch') || '',
+                    department: urlParams.get('department') || '',
+                    phone: urlParams.get('phone') || '',
+                    email: urlParams.get('email') || '',
+                    address: urlParams.get('address') || '',
+                    facebook: urlParams.get('facebook') || '',
+                    instagram: urlParams.get('instagram') || '',
+                    linkedin: urlParams.get('linkedin') || '',
+                    twitter: urlParams.get('twitter') || ''
+                };
+                
+                if (newAlumni.fullName && newAlumni.email) {
+                    addAlumniFromRegistration(newAlumni);
+                    
+                    // Show success message
+                    showSuccessMessage(`${newAlumni.fullName} has been successfully added to the alumni directory!`);
+                    
+                    // Clean up URL
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+            }
+        }
+
+        // Function to show success message
+        function showSuccessMessage(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            successDiv.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-check-circle"></i>
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-2 text-white hover:text-gray-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(successDiv);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (successDiv.parentElement) {
+                    successDiv.remove();
+                }
+            }, 5000);
+        }
+
+        // Initialize alumni data
+        let alumniData = loadAlumniData();
+
+        let filteredData = [...alumniData];
+
+        // Function to group alumni by batch
+        function groupByBatch(data) {
+            return data.reduce((groups, alumni) => {
+                const batch = alumni.batch;
+                if (!groups[batch]) {
+                    groups[batch] = [];
+                }
+                groups[batch].push(alumni);
+                return groups;
+            }, {});
+        }
+
+        // Function to render alumni cards
+        function renderAlumni() {
+            const container = document.getElementById('alumniContainer');
+            const groupedData = groupByBatch(filteredData);
+            
+            // Sort batches in descending order (newest first)
+            const sortedBatches = Object.keys(groupedData).sort((a, b) => b - a);
+            
+            container.innerHTML = '';
+            
+            sortedBatches.forEach(batch => {
+                const batchSection = document.createElement('div');
+                batchSection.className = 'mb-8';
+                
+                batchSection.innerHTML = `
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 p-4">
+                            <h2 class="text-2xl font-bold text-white">
+                                <i class="fas fa-graduation-cap mr-2"></i>Batch ${batch}
+                                <span class="text-sm font-normal ml-2">(${groupedData[batch].length} alumni)</span>
+                            </h2>
+                        </div>
+                        
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                ${groupedData[batch].map(alumni => `
+                                    <div class="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer" onclick="showAlumniDetails(${alumni.id})">
+                                        <div class="flex items-center space-x-3 mb-3">
+                                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                                                ${alumni.fullName.split(' ').map(n => n[0]).join('')}
+                                            </div>
+                                            <div>
+                                                <h3 class="font-semibold text-gray-800">${alumni.fullName}</h3>
+                                                <p class="text-sm text-gray-600">${alumni.department}</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="space-y-2 text-sm">
+                                            <div class="flex items-center text-gray-600">
+                                                <i class="fas fa-envelope w-4 mr-2"></i>
+                                                <span class="truncate">${alumni.email}</span>
+                                            </div>
+                                            <div class="flex items-center text-gray-600">
+                                                <i class="fas fa-phone w-4 mr-2"></i>
+                                                <span>${alumni.phone}</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="flex space-x-2 mt-3">
+                                            <a href="https://${alumni.facebook}" target="_blank" class="text-blue-600 hover:text-blue-800">
+                                                <i class="fab fa-facebook"></i>
+                                            </a>
+                                            <a href="https://instagram.com/${alumni.instagram.replace('@', '')}" target="_blank" class="text-pink-600 hover:text-pink-800">
+                                                <i class="fab fa-instagram"></i>
+                                            </a>
+                                            <a href="https://${alumni.linkedin}" target="_blank" class="text-blue-700 hover:text-blue-900">
+                                                <i class="fab fa-linkedin"></i>
+                                            </a>
+                                            <a href="https://twitter.com/${alumni.twitter.replace('@', '')}" target="_blank" class="text-blue-400 hover:text-blue-600">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(batchSection);
+            });
+        }
+
+        // Function to show alumni details in modal
+        function showAlumniDetails(id) {
+            const alumni = alumniData.find(a => a.id === id);
+            if (!alumni) return;
+            
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <div class="space-y-6">
+                    <!-- Profile Header -->
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+                            ${alumni.fullName.split(' ').map(n => n[0]).join('')}
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800">${alumni.fullName}</h3>
+                        <p class="text-gray-600">Batch ${alumni.batch} • ${alumni.department}</p>
+                    </div>
+                    
+                    <!-- Contact Information -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">Contact Information</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-phone text-gray-500"></i>
+                                    <span>${alumni.phone}</span>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <i class="fas fa-envelope text-gray-500"></i>
+                                    <span>${alumni.email}</span>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <i class="fas fa-map-marker-alt text-gray-500 mt-1"></i>
+                                    <span>${alumni.address}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3">Social Media</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-center space-x-3">
+                                    <i class="fab fa-facebook text-blue-600"></i>
+                                    <a href="https://${alumni.facebook}" target="_blank" class="text-blue-600 hover:underline">${alumni.facebook}</a>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <i class="fab fa-instagram text-pink-600"></i>
+                                    <a href="https://instagram.com/${alumni.instagram.replace('@', '')}" target="_blank" class="text-pink-600 hover:underline">${alumni.instagram}</a>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <i class="fab fa-linkedin text-blue-700"></i>
+                                    <a href="https://${alumni.linkedin}" target="_blank" class="text-blue-700 hover:underline">${alumni.linkedin}</a>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <i class="fab fa-twitter text-blue-400"></i>
+                                    <a href="https://twitter.com/${alumni.twitter.replace('@', '')}" target="_blank" class="text-blue-400 hover:underline">${alumni.twitter}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('alumniModal').classList.remove('hidden');
+        }
+
+        // Function to close modal
+        function closeModal() {
+            document.getElementById('alumniModal').classList.add('hidden');
+        }
+
+        // Function to filter alumni
+        function filterAlumni() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const batchFilter = document.getElementById('batchFilter').value;
+            
+            filteredData = alumniData.filter(alumni => {
+                const matchesSearch = alumni.fullName.toLowerCase().includes(searchTerm) ||
+                                    alumni.department.toLowerCase().includes(searchTerm) ||
+                                    alumni.email.toLowerCase().includes(searchTerm);
+                
+                const matchesBatch = !batchFilter || alumni.batch === batchFilter;
+                
+                return matchesSearch && matchesBatch;
+            });
+            
+            renderAlumni();
+            updateStatistics();
+        }
+
+        // Function to update statistics
+        function updateStatistics() {
+            const batches = [...new Set(filteredData.map(a => a.batch))];
+            const departments = [...new Set(filteredData.map(a => a.department))];
+            const latestBatch = Math.max(...batches.map(b => parseInt(b)));
+            
+            document.getElementById('totalAlumni').textContent = filteredData.length;
+            document.getElementById('totalBatches').textContent = batches.length;
+            document.getElementById('totalDepartments').textContent = departments.length;
+            document.getElementById('latestBatch').textContent = latestBatch;
+        }
+
+        // Function to add new alumni - opens registration form
+        function addNewAlumni() {
+            // Create a simple registration form modal
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto">
+                    <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-2xl font-bold text-gray-800">Add New Alumni</h2>
+                            <button onclick="this.closest('.fixed').remove()" class="text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-times text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <form id="registrationForm" class="space-y-4">
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                                    <input type="text" name="fullName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Batch *</label>
+                                    <input type="text" name="batch" required placeholder="e.g., 2024" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Department *</label>
+                                    <input type="text" name="department" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+                                    <input type="tel" name="phone" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                                    <input type="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Address *</label>
+                                    <textarea name="address" required rows="2" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Facebook</label>
+                                    <input type="text" name="facebook" placeholder="facebook.com/username" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Instagram</label>
+                                    <input type="text" name="instagram" placeholder="@username" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">LinkedIn</label>
+                                    <input type="text" name="linkedin" placeholder="linkedin.com/in/username" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Twitter</label>
+                                    <input type="text" name="twitter" placeholder="@username" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end space-x-3 pt-4">
+                                <button type="button" onclick="this.closest('.fixed').remove()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                                    Cancel
+                                </button>
+                                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                                    Add Alumni
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Handle form submission
+            document.getElementById('registrationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const alumniInfo = {
+                    fullName: formData.get('fullName'),
+                    batch: formData.get('batch'),
+                    department: formData.get('department'),
+                    phone: formData.get('phone'),
+                    email: formData.get('email'),
+                    address: formData.get('address'),
+                    facebook: formData.get('facebook') || '',
+                    instagram: formData.get('instagram') || '',
+                    linkedin: formData.get('linkedin') || '',
+                    twitter: formData.get('twitter') || ''
+                };
+                
+                // Add the new alumni
+                const newAlumni = addAlumniFromRegistration(alumniInfo);
+                
+                // Close modal
+                modal.remove();
+                
+                // Show success message
+                showSuccessMessage(`${newAlumni.fullName} has been successfully added to the alumni directory!`);
+            });
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterAlumni);
+        document.getElementById('batchFilter').addEventListener('change', filterAlumni);
+
+        // Close modal when clicking outside
+        document.getElementById('alumniModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for new registration data first
+            checkForNewRegistration();
+            
+            // Then render the page
+            renderAlumni();
+            updateStatistics();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f8781891c10e0c',t:'MTc1Nzk0MjkyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+</html>
+

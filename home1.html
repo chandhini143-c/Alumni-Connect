@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Association - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation Header -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-white text-lg"></i>
+                    </div>
+                    <h1 class="text-xl font-bold text-gray-800">Alumni Connect</h1>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-1">
+                    <button onclick="showTab('home')" class="tab-btn px-4 py-2 rounded-lg font-medium transition-colors bg-blue-600 text-white" data-tab="home">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </button>
+                    <button onclick="showTab('gallery')" class="tab-btn px-4 py-2 rounded-lg font-medium transition-colors text-gray-600 hover:bg-gray-100" data-tab="gallery">
+                        <i class="fas fa-images mr-2"></i>Gallery
+                    </button>
+                    <button onclick="showTab('events')" class="tab-btn px-4 py-2 rounded-lg font-medium transition-colors text-gray-600 hover:bg-gray-100" data-tab="events">
+                        <i class="fas fa-calendar mr-2"></i>Events
+                    </button>
+                    <button onclick="showTab('details')" class="tab-btn px-4 py-2 rounded-lg font-medium transition-colors text-gray-600 hover:bg-gray-100" data-tab="details">
+                        <i class="fas fa-users mr-2"></i>Details
+                    </button>
+                    <button onclick="showTab('contact')" class="tab-btn px-4 py-2 rounded-lg font-medium transition-colors text-gray-600 hover:bg-gray-100" data-tab="contact">
+                        <i class="fas fa-envelope mr-2"></i>Contact Us
+                    </button>
+                    <button onclick="showTab('about')" class="tab-btn px-4 py-2 rounded-lg font-medium transition-colors text-gray-600 hover:bg-gray-100" data-tab="about">
+                        <i class="fas fa-info-circle mr-2"></i>About
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-gray-600">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Navigation -->
+            <div id="mobileMenu" class="md:hidden hidden pb-4">
+                <div class="flex flex-col space-y-2">
+                    <button onclick="showTab('home'); toggleMobileMenu()" class="tab-btn text-left px-4 py-2 rounded-lg font-medium transition-colors bg-blue-600 text-white" data-tab="home">
+                        <i class="fas fa-home mr-2"></i>Home
+                    </button>
+                    <button onclick="showTab('gallery'); toggleMobileMenu()" class="tab-btn text-left px-4 py-2 rounded-lg font-medium transition-colors text-gray-600 hover:bg-gray-100" data-tab="gallery">
+                        <i class="fas fa-images mr-2"></i>Gallery
+                    </button>
+                    <button onclick="showTab('events'); toggleMobileMenu()" class="tab-btn text-left px-4 py-2 rounded-lg font-medium transition-colors text-gray-600 hover:bg-gray-100" data-tab="events">
+                        <i class="fas fa-calendar mr-2"></i>Events
+                    </button>
+                    <button onclick="showTab('details'); toggleMobileMenu()" class="tab-btn text-left px-4 py-2 rounded-lg font-medium transition-colors text-gray-600 hover:bg-gray-100" data-tab="details">
+                        <i class="fas fa-users mr-2"></i>Details
+                    </button>
+                    <button onclick="showTab('contact'); toggleMobileMenu()" class="tab-btn text-left px-4 py-2 rounded-lg font-medium transition-colors text-gray-600 hover:bg-gray-100" data-tab="contact">
+                        <i class="fas fa-envelope mr-2"></i>Contact Us
+                    </button>
+                    <button onclick="showTab('about'); toggleMobileMenu()" class="tab-btn text-left px-4 py-2 rounded-lg font-medium transition-colors text-gray-600 hover:bg-gray-100" data-tab="about">
+                        <i class="fas fa-info-circle mr-2"></i>About
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="min-h-screen">
+        <!-- Home Tab -->
+        <div id="home" class="tab-content active">
+            <!-- Hero Section -->
+            <div class="hero-bg text-white py-20">
+                <div class="max-w-7xl mx-auto px-4 text-center">
+                    <h1 class="text-5xl font-bold mb-6">Welcome to Our Alumni Network</h1>
+                    <p class="text-xl mb-8 max-w-3xl mx-auto">Connecting graduates, fostering relationships, and building a stronger community for lifelong success and collaboration.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="openAlumniDirectory()" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                            Browse Alumni Directory
+                        </button>
+                        <button onclick="showTab('events')" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+                            View Upcoming Events
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="py-16 bg-white">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-users text-2xl text-blue-600"></i>
+                            </div>
+                            <h3 class="text-3xl font-bold text-gray-800 mb-2">500+</h3>
+                            <p class="text-gray-600">Registered Alumni</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-calendar text-2xl text-green-600"></i>
+                            </div>
+                            <h3 class="text-3xl font-bold text-gray-800 mb-2">25+</h3>
+                            <p class="text-gray-600">Annual Events</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-graduation-cap text-2xl text-purple-600"></i>
+                            </div>
+                            <h3 class="text-3xl font-bold text-gray-800 mb-2">15</h3>
+                            <p class="text-gray-600">Graduation Batches</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-globe text-2xl text-orange-600"></i>
+                            </div>
+                            <h3 class="text-3xl font-bold text-gray-800 mb-2">20+</h3>
+                            <p class="text-gray-600">Countries</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent News -->
+            <div class="py-16 bg-gray-50">
+                <div class="max-w-7xl mx-auto px-4">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Latest News & Updates</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="h-48 bg-gradient-to-r from-blue-400 to-blue-600"></div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2">Annual Alumni Meet 2024</h3>
+                                <p class="text-gray-600 mb-4">Join us for our biggest gathering of the year with networking, awards, and celebrations.</p>
+                                <span class="text-sm text-blue-600">March 15, 2024</span>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="h-48 bg-gradient-to-r from-green-400 to-green-600"></div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2">Career Mentorship Program</h3>
+                                <p class="text-gray-600 mb-4">New mentorship initiative connecting recent graduates with industry veterans.</p>
+                                <span class="text-sm text-green-600">February 28, 2024</span>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="h-48 bg-gradient-to-r from-purple-400 to-purple-600"></div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-semibold mb-2">Alumni Achievement Awards</h3>
+                                <p class="text-gray-600 mb-4">Celebrating outstanding achievements of our alumni in various fields.</p>
+                                <span class="text-sm text-purple-600">February 20, 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery Tab -->
+        <div id="gallery" class="tab-content">
+            <div class="py-16">
+                <div class="max-w-7xl mx-auto px-4">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Photo Gallery</h2>
+                    
+                    <!-- Gallery Categories -->
+                    <div class="flex flex-wrap justify-center gap-4 mb-8">
+                        <button onclick="filterGallery('all')" class="gallery-filter px-6 py-2 rounded-full bg-blue-600 text-white font-medium" data-filter="all">All</button>
+                        <button onclick="filterGallery('events')" class="gallery-filter px-6 py-2 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-gray-300" data-filter="events">Events</button>
+                        <button onclick="filterGallery('graduation')" class="gallery-filter px-6 py-2 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-gray-300" data-filter="graduation">Graduation</button>
+                        <button onclick="filterGallery('reunions')" class="gallery-filter px-6 py-2 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-gray-300" data-filter="reunions">Reunions</button>
+                    </div>
+                    
+                    <!-- Photo Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        <div class="gallery-item bg-gradient-to-br from-blue-400 to-blue-600 h-64 rounded-lg shadow-md flex items-center justify-center text-white" data-category="events">
+                            <div class="text-center">
+                                <i class="fas fa-calendar text-4xl mb-2"></i>
+                                <p class="font-semibold">Annual Meet 2023</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item bg-gradient-to-br from-green-400 to-green-600 h-64 rounded-lg shadow-md flex items-center justify-center text-white" data-category="graduation">
+                            <div class="text-center">
+                                <i class="fas fa-graduation-cap text-4xl mb-2"></i>
+                                <p class="font-semibold">Batch 2023 Graduation</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item bg-gradient-to-br from-purple-400 to-purple-600 h-64 rounded-lg shadow-md flex items-center justify-center text-white" data-category="reunions">
+                            <div class="text-center">
+                                <i class="fas fa-users text-4xl mb-2"></i>
+                                <p class="font-semibold">Class of 2018 Reunion</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item bg-gradient-to-br from-orange-400 to-orange-600 h-64 rounded-lg shadow-md flex items-center justify-center text-white" data-category="events">
+                            <div class="text-center">
+                                <i class="fas fa-trophy text-4xl mb-2"></i>
+                                <p class="font-semibold">Awards Ceremony</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item bg-gradient-to-br from-pink-400 to-pink-600 h-64 rounded-lg shadow-md flex items-center justify-center text-white" data-category="graduation">
+                            <div class="text-center">
+                                <i class="fas fa-graduation-cap text-4xl mb-2"></i>
+                                <p class="font-semibold">Batch 2022 Graduation</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item bg-gradient-to-br from-indigo-400 to-indigo-600 h-64 rounded-lg shadow-md flex items-center justify-center text-white" data-category="reunions">
+                            <div class="text-center">
+                                <i class="fas fa-handshake text-4xl mb-2"></i>
+                                <p class="font-semibold">Networking Event</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item bg-gradient-to-br from-teal-400 to-teal-600 h-64 rounded-lg shadow-md flex items-center justify-center text-white" data-category="events">
+                            <div class="text-center">
+                                <i class="fas fa-microphone text-4xl mb-2"></i>
+                                <p class="font-semibold">Guest Lecture</p>
+                            </div>
+                        </div>
+                        <div class="gallery-item bg-gradient-to-br from-red-400 to-red-600 h-64 rounded-lg shadow-md flex items-center justify-center text-white" data-category="events">
+                            <div class="text-center">
+                                <i class="fas fa-heart text-4xl mb-2"></i>
+                                <p class="font-semibold">Charity Drive</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Tab -->
+        <div id="events" class="tab-content">
+            <div class="py-16">
+                <div class="max-w-7xl mx-auto px-4">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Events</h2>
+                    
+                    <!-- Upcoming Events -->
+                    <div class="mb-16">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-8">Upcoming Events</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                                <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-6 text-white">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="text-xl font-semibold mb-2">Annual Alumni Meet 2024</h4>
+                                            <p class="text-blue-100">Grand reunion and networking event</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-2xl font-bold">15</div>
+                                            <div class="text-sm">MAR</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <div class="space-y-3 mb-4">
+                                        <div class="flex items-center text-gray-600">
+                                            <i class="fas fa-clock mr-3"></i>
+                                            <span>6:00 PM - 10:00 PM</span>
+                                        </div>
+                                        <div class="flex items-center text-gray-600">
+                                            <i class="fas fa-map-marker-alt mr-3"></i>
+                                            <span>Grand Ballroom, City Hotel</span>
+                                        </div>
+                                        <div class="flex items-center text-gray-600">
+                                            <i class="fas fa-users mr-3"></i>
+                                            <span>250+ Expected Attendees</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="registerForEvent('Annual Alumni Meet 2024')" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                        Register Now
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                                <div class="bg-gradient-to-r from-green-500 to-green-600 p-6 text-white">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <h4 class="text-xl font-semibold mb-2">Career Workshop</h4>
+                                            <p class="text-green-100">Professional development session</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-2xl font-bold">28</div>
+                                            <div class="text-sm">MAR</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <div class="space-y-3 mb-4">
+                                        <div class="flex items-center text-gray-600">
+                                            <i class="fas fa-clock mr-3"></i>
+                                            <span>2:00 PM - 5:00 PM</span>
+                                        </div>
+                                        <div class="flex items-center text-gray-600">
+                                            <i class="fas fa-map-marker-alt mr-3"></i>
+                                            <span>Conference Room A, Campus</span>
+                                        </div>
+                                        <div class="flex items-center text-gray-600">
+                                            <i class="fas fa-users mr-3"></i>
+                                            <span>50 Seats Available</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="registerForEvent('Career Workshop')" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors">
+                                        Register Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Past Events -->
+                    <div>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-8">Past Events</h3>
+                        <div class="space-y-6">
+                            <div class="bg-white rounded-lg shadow-md p-6">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between">
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-800 mb-2">Alumni Achievement Awards 2024</h4>
+                                        <p class="text-gray-600 mb-2">Celebrating outstanding achievements of our alumni</p>
+                                        <div class="flex items-center text-sm text-gray-500">
+                                            <i class="fas fa-calendar mr-2"></i>
+                                            <span>February 20, 2024</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 md:mt-0">
+                                        <span class="bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-sm">Completed</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white rounded-lg shadow-md p-6">
+                                <div class="flex flex-col md:flex-row md:items-center justify-between">
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-800 mb-2">New Year Networking Event</h4>
+                                        <p class="text-gray-600 mb-2">Kickstart the year with meaningful connections</p>
+                                        <div class="flex items-center text-sm text-gray-500">
+                                            <i class="fas fa-calendar mr-2"></i>
+                                            <span>January 15, 2024</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 md:mt-0">
+                                        <span class="bg-gray-100 text-gray-600 px-4 py-2 rounded-full text-sm">Completed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Details Tab -->
+        <div id="details" class="tab-content">
+            <div class="py-16">
+                <div class="max-w-7xl mx-auto px-4">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Alumni Directory</h2>
+                    
+                    <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+                        <div class="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-users text-4xl text-blue-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Browse Our Alumni Network</h3>
+                        <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
+                            Explore our comprehensive alumni directory organized by graduation batches. 
+                            Connect with fellow graduates, discover their achievements, and expand your professional network.
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-blue-600 mb-2">500+</div>
+                                <div class="text-gray-600">Registered Alumni</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-green-600 mb-2">15</div>
+                                <div class="text-gray-600">Graduation Batches</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-purple-600 mb-2">8</div>
+                                <div class="text-gray-600">Departments</div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="openAlumniDirectory()" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-external-link-alt mr-2"></i>
+                            Open Alumni Directory
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Us Tab -->
+        <div id="contact" class="tab-content">
+            <div class="py-16">
+                <div class="max-w-7xl mx-auto px-4">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Contact Us</h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <!-- Contact Form -->
+                        <div class="bg-white rounded-lg shadow-lg p-8">
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-6">Get In Touch</h3>
+                            <form id="contactForm" class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                                    <input type="text" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                    <input type="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+                                    <input type="text" name="subject" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                                    <textarea name="message" rows="5" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                                </div>
+                                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                                    <i class="fas fa-paper-plane mr-2"></i>Send Message
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <!-- Contact Information -->
+                        <div class="space-y-8">
+                            <div class="bg-white rounded-lg shadow-lg p-8">
+                                <h3 class="text-2xl font-semibold text-gray-800 mb-6">Contact Information</h3>
+                                <div class="space-y-6">
+                                    <div class="flex items-start space-x-4">
+                                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-map-marker-alt text-blue-600"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-gray-800 mb-1">Address</h4>
+                                            <p class="text-gray-600">Lendi Institute Of Engineering And Technology <br>Jonnada,Vizianagaram, Andhra Pradesh</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-4">
+                                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-phone text-green-600"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-gray-800 mb-1">Phone</h4>
+                                            <p class="text-gray-600">+1 (555) 123-4567</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-4">
+                                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-envelope text-purple-600"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-gray-800 mb-1">Email</h4>
+                                            <p class="text-gray-600">lendi@edu.in</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-4">
+                                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                            <i class="fas fa-clock text-orange-600"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-gray-800 mb-1">Office Hours</h4>
+                                            <p class="text-gray-600">Monday - Friday<br>9:00 AM - 5:00 PM</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Social Media -->
+                            <div class="bg-white rounded-lg shadow-lg p-8">
+                                <h3 class="text-2xl font-semibold text-gray-800 mb-6">Follow Us</h3>
+                                <div class="flex space-x-4">
+                                    <a href="#" class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white hover:bg-blue-700 transition-colors">
+                                        <i class="fab fa-facebook"></i>
+                                    </a>
+                                    <a href="#" class="w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center text-white hover:bg-blue-500 transition-colors">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="w-12 h-12 bg-blue-700 rounded-full flex items-center justify-center text-white hover:bg-blue-800 transition-colors">
+                                        <i class="fab fa-linkedin"></i>
+                                    </a>
+                                    <a href="#" class="w-12 h-12 bg-pink-600 rounded-full flex items-center justify-center text-white hover:bg-pink-700 transition-colors">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Tab -->
+        <div id="about" class="tab-content">
+            <div class="py-16">
+                <div class="max-w-7xl mx-auto px-4">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">About Our Alumni Connect</h2>
+                    
+                    <!-- Mission Section -->
+                    <div class="bg-white rounded-lg shadow-lg p-8 mb-12">
+                        <div class="text-center mb-8">
+                            <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-bullseye text-3xl text-blue-600"></i>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Our Mission</h3>
+                            <p class="text-gray-600 max-w-3xl mx-auto text-lg">
+                                To foster lifelong connections among graduates, support their professional and personal growth, 
+                                and strengthen the bond between alumni and our institution through meaningful engagement and collaboration.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Values -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                        <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-handshake text-2xl text-green-600"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold text-gray-800 mb-3">Connection</h4>
+                            <p class="text-gray-600">Building lasting relationships and professional networks that span generations and industries.</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+                            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-lightbulb text-2xl text-purple-600"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold text-gray-800 mb-3">Innovation</h4>
+                            <p class="text-gray-600">Encouraging creativity, entrepreneurship, and forward-thinking solutions to global challenges.</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+                            <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-heart text-2xl text-orange-600"></i>
+                            </div>
+                            <h4 class="text-xl font-semibold text-gray-800 mb-3">Service</h4>
+                            <p class="text-gray-600">Giving back to our community and supporting the next generation of students and graduates.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- History -->
+                    <div class="bg-white rounded-lg shadow-lg p-8 mb-12">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-6">Our History</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+                                    2010
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-1">Foundation</h4>
+                                    <p class="text-gray-600">Alumni Connect officially established with 50 founding members.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+                                    2015
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-1">Digital Platform Launch</h4>
+                                    <p class="text-gray-600">Launched our first online platform connecting alumni worldwide.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+                                    2020
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-1">Mentorship Program</h4>
+                                    <p class="text-gray-600">Introduced career mentorship program connecting students with alumni.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+                                    2024
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800 mb-1">Global Network</h4>
+                                    <p class="text-gray-600">Reached 500+ members across 20+ countries with active engagement programs.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Leadership Team -->
+                    <div class="bg-white rounded-lg shadow-lg p-8">
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-8 text-center">Leadership Team</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="text-center">
+                                <div class="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">
+                                    JD
+                                </div>
+                                <h4 class="text-lg font-semibold text-gray-800 mb-1">Sri P.Madhusudana rao</h4>
+                                <p class="text-blue-600 mb-2">Chairman</p>
+                                
+                            </div>
+                            <div class="text-center">
+                                <div class="w-24 h-24 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">
+                                    JS
+                                </div>
+                                <h4 class="text-lg font-semibold text-gray-800 mb-1">Dr.V.V.Rama Rao</h4>
+                                <p class="text-green-600 mb-2">Principal</p>
+                                
+                            </div>
+                            <div class="text-center">
+                                <div class="w-24 h-24 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">
+                                    MJ
+                                </div>
+                                <h4 class="text-lg font-semibold text-gray-800 mb-1">Dr.T.Haribabu</h4>
+                                <p class="text-purple-600 mb-2">Vice Principal</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                            <i class="fas fa-graduation-cap text-white"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold">Alumni Connect</h3>
+                    </div>
+                    <p class="text-gray-400">Connecting graduates, fostering relationships, and building a stronger community.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" onclick="showTab('home')" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#" onclick="showTab('events')" class="hover:text-white transition-colors">Events</a></li>
+                        <li><a href="#" onclick="showTab('details')" class="hover:text-white transition-colors">Directory</a></li>
+                        <li><a href="#" onclick="showTab('contact')" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Info</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><i class="fas fa-phone mr-2"></i>+1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope mr-2"></i>lendi@edu.in</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i>Lendi Institute Of Engineering And Technology</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+                    <div class="flex space-x-3">
+                        <a href="#" class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+                            <i class="fab fa-facebook text-sm"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors">
+                            <i class="fab fa-twitter text-sm"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center hover:bg-blue-800 transition-colors">
+                            <i class="fab fa-linkedin text-sm"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition-colors">
+                            <i class="fab fa-instagram text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Alumni Connect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(button => {
+                button.classList.remove('bg-blue-600', 'text-white');
+                button.classList.add('text-gray-600', 'hover:bg-gray-100');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab button
+            const activeButtons = document.querySelectorAll(`[data-tab="${tabName}"]`);
+            activeButtons.forEach(button => {
+                button.classList.add('bg-blue-600', 'text-white');
+                button.classList.remove('text-gray-600', 'hover:bg-gray-100');
+            });
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        // Gallery filter functionality
+        function filterGallery(category) {
+            const items = document.querySelectorAll('.gallery-item');
+            const filters = document.querySelectorAll('.gallery-filter');
+            
+            // Update filter buttons
+            filters.forEach(filter => {
+                filter.classList.remove('bg-blue-600', 'text-white');
+                filter.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            
+            document.querySelector(`[data-filter="${category}"]`).classList.add('bg-blue-600', 'text-white');
+            document.querySelector(`[data-filter="${category}"]`).classList.remove('bg-gray-200', 'text-gray-700');
+            
+            // Filter items
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Event registration
+        function registerForEvent(eventName) {
+            alert(`Thank you for your interest in "${eventName}"! Registration functionality would be implemented here.`);
+        }
+
+        // Open alumni directory
+        function openAlumniDirectory() {
+            // Open the details.html page at the specified location
+            window.open('http://127.0.0.1:5500/details.html', '_blank');
+        }
+
+        // Contact form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form data
+                    const formData = new FormData(this);
+                    const name = formData.get('name');
+                    
+                    // Show success message
+                    alert(`Thank you ${name}! Your message has been received. We'll get back to you soon.`);
+                    
+                    // Reset form
+                    this.reset();
+                });
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show home tab by default
+            showTab('home');
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f8a7e0158bc1b5',t:'MTc1Nzk0NDg4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+</html>
