@@ -116,15 +116,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between">
-                    <label class="flex items-center">
-                        <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                        <span class="ml-2 text-sm text-gray-600">Remember me</span>
-                    </label>
-                    <a href="#" onclick="showForgotPassword()" class="text-sm text-blue-600 hover:text-blue-800 transition-colors">
-                        Forgot password?
-                    </a>
-                </div>
+                
 
                 <button 
                     type="submit" 
@@ -136,26 +128,10 @@
                 </button>
             </form>
 
-            <!-- Divider -->
-            <div class="my-6 flex items-center">
-                <div class="flex-1 border-t border-gray-300"></div>
-                <span class="px-4 text-sm text-gray-500">or</span>
-                <div class="flex-1 border-t border-gray-300"></div>
-            </div>
+            
 
-            <!-- Additional Options -->
-            <div class="space-y-3">
-                <button onclick="showRegistration()" class="w-full border border-gray-300 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors">
-                    <i class="fas fa-user-plus mr-2"></i>
-                    New Alumni? Register Here
-                </button>
-                
-                <button onclick="showGuestAccess()" class="w-full text-blue-600 py-2 rounded-lg font-medium hover:bg-blue-50 transition-colors">
-                    <i class="fas fa-eye mr-2"></i>
-                    Continue as Guest
-                </button>
-            </div>
-        </div>
+           
+            
 
         <!-- Footer -->
         <div class="text-center mt-8 text-blue-100">
@@ -314,20 +290,9 @@
             }
         });
 
-        // Show forgot password modal
-        function showForgotPassword() {
-            alert('Forgot Password: Please contact the alumni office at alumni@lendi.edu.in or call +91-XXXX-XXXXXX for password reset assistance.');
-        }
-
-        // Show registration info
-        function showRegistration() {
-            alert('New Alumni Registration: Please contact the alumni office with your graduation details to get registered. Email: alumni@lendi.edu.in');
-        }
-
-        // Show guest access info
-        function showGuestAccess() {
-            alert('Guest Access: Limited features available. For full access, please login with your Lendi Institute email address.');
-        }
+        
+        
+        
 
         // Add some interactive effects
         document.addEventListener('DOMContentLoaded', function() {
